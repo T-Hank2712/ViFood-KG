@@ -1,9 +1,6 @@
 CREATE CONSTRAINT nutrient_id IF NOT EXISTS
 FOR (n:Nutrient) REQUIRE n.id IS UNIQUE;
 
-CREATE CONSTRAINT ingredient_id IF NOT EXISTS
-FOR (n:Ingredient) REQUIRE n.id IS UNIQUE;
-
 CREATE CONSTRAINT additive_id IF NOT EXISTS
 FOR (n:Additive) REQUIRE n.id IS UNIQUE;
 

@@ -9,17 +9,14 @@ from food_kg.models import NodeRecord, RelationshipRecord
 
 REQUIRED_PROVENANCE = {"source", "source_url", "reviewed_at"}
 RELATION_ENDPOINTS = {
-    "IS_A": {("Ingredient", "Ingredient")}, "DERIVED_FROM": {("Ingredient", "Ingredient")},
-    "HAS_NUTRIENT": {("Ingredient", "Nutrient")}, "CONTAINS_ALLERGEN": {("Ingredient", "Allergen")},
     "HAS_FUNCTION": {("Additive", "FunctionalClass")}, "PERMITTED_IN": {("Additive", "FoodCategory")},
     "COMMON_IN": {("Additive", "FoodCategory")}, "OBSERVED_IN": {("Additive", "FoodCategory")},
-    "REFERS_TO": {("Alias", "Ingredient"), ("Alias", "Nutrient"), ("Alias", "Additive"), ("Alias", "FoodCategory"), ("Alias", "Allergen")},
-    "SUBJECT_OF": {("HealthClaim", "Nutrient"), ("HealthClaim", "Ingredient"), ("HealthClaim", "Additive")},
+    "REFERS_TO": {("Alias", "Nutrient"), ("Alias", "Additive"), ("Alias", "FoodCategory"), ("Alias", "Allergen")},
+    "SUBJECT_OF": {("HealthClaim", "Nutrient"), ("HealthClaim", "Additive")},
     "OUTCOME": {("HealthClaim", "HealthOutcome")}, "EVIDENCED_BY": {("HealthClaim", "Source")},
-    "GOVERNS": {("Regulation", "Additive")}, "IN_CATEGORY": {("Ingredient", "FoodCategory")},
-    "IN_GROUP": {("Ingredient", "IngredientGroup")},
+    "GOVERNS": {("Regulation", "Additive")},
     "BROADER_THAN": {("FoodCategory", "FoodCategory")},
-    "SUPPORTED_BY": {("Ingredient", "Source"), ("IngredientGroup", "Source"), ("Nutrient", "Source"), ("Additive", "Source"), ("FoodCategory", "Source"), ("Regulation", "Source"), ("Allergen", "Source")},
+    "SUPPORTED_BY": {("Nutrient", "Source"), ("Additive", "Source"), ("FoodCategory", "Source"), ("Regulation", "Source"), ("Allergen", "Source")},
     "SUPERSEDES": {("Regulation", "Regulation")},
 }
 
@@ -46,9 +43,6 @@ def validate_curated_graph(nodes: Iterable[NodeRecord], relationships: Iterable[
         allowed = RELATION_ENDPOINTS[rel.type]
         if allowed and (start_label, end_label) not in allowed:
             errors.append(f"{rel.type}: invalid endpoints {start_label} -> {end_label}")
-        if rel.type == "HAS_NUTRIENT":
-            if rel.properties.get("amount", -1) < 0 or rel.properties.get("basis", "") == "":
-                errors.append("HAS_NUTRIENT requires non-negative amount and basis")
         relation_count[(rel.start_id, rel.type)] += 1
     for claim in (node for node in nodes if node.label == "HealthClaim"):
         for relation in ("SUBJECT_OF", "OUTCOME", "EVIDENCED_BY"):

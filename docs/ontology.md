@@ -13,16 +13,14 @@ Mỗi node chuẩn đều có các thuộc tính nền tảng:
 - `reviewed_at`: ngày dữ liệu được review/release.
 - `status`: trạng thái dữ liệu, ví dụ `active` hoặc `deprecated`.
 
-Các thuộc tính chuyên biệt như `name_vi`, `ins`, `external_code`, `foodon_id`, `chebi_id`, `source_iri` hoặc `molecular_formula` được thêm tùy loại node.
+Các thuộc tính chuyên biệt như `name_vi`, `ins`, `external_code` hoặc `source_iri` được thêm tùy loại node.
 
-Thông tin có bản chất là quan hệ nên được biểu diễn bằng relationship, không nhồi vào property. Ví dụ nhóm nguyên liệu là node `IngredientGroup`, không phải mảng property trên `Ingredient`.
+Thông tin có bản chất là quan hệ nên được biểu diễn bằng relationship, không nhồi vào property.
 
 ## Node labels
 
 | Label | Ý nghĩa |
 |---|---|
-| `Ingredient` | Nguyên liệu thực phẩm chuẩn, gồm nguyên liệu food-based như bột mì, sữa bột, dầu thực vật và ingredient dạng hóa chất như glucose, caffeine, sodium chloride. |
-| `IngredientGroup` | Nhóm nguyên liệu phục vụ query và giải thích, ví dụ nhóm nguyên liệu sữa, nhóm nguyên liệu bột/ngũ cốc, nhóm nguyên liệu dầu/chất béo. |
 | `Nutrient` | Dưỡng chất hoặc thành phần dinh dưỡng chuẩn, có mã định danh từ nguồn dinh dưỡng. |
 | `Additive` | Phụ gia thực phẩm chuẩn, có thể có mã INS, E-number, tên và chức năng công nghệ. |
 | `FunctionalClass` | Chức năng công nghệ của phụ gia, ví dụ chất bảo quản, chất tạo màu, chất điều chỉnh độ acid. |
@@ -40,48 +38,15 @@ Thông tin có bản chất là quan hệ nên được biểu diễn bằng rel
 |---|---|
 | `SUPPORTED_BY` | Liên kết một thực thể chuẩn với nguồn hỗ trợ nó. |
 | `REFERS_TO` | Liên kết `Alias` đến đúng một thực thể chuẩn. |
-| `IS_A` | Biểu diễn quan hệ phân cấp bản chất, ví dụ một ingredient cụ thể là một loại của ingredient rộng hơn. |
-| `IN_GROUP` | Gom `Ingredient` vào `IngredientGroup` phục vụ query và giải thích nghiệp vụ. |
-| `DERIVED_FROM` | Biểu diễn nguyên liệu được tạo ra, chiết xuất hoặc dẫn xuất từ nguyên liệu khác. |
-| `HAS_NUTRIENT` | Liên kết `Ingredient` với `Nutrient` mà nguyên liệu đó chứa, kèm amount/unit/basis khi có dữ liệu định lượng. |
-| `CONTAINS_ALLERGEN` | Liên kết `Ingredient` với `Allergen` liên quan. |
 | `HAS_FUNCTION` | Liên kết `Additive` với `FunctionalClass`. |
 | `PERMITTED_IN` | Liên kết `Additive` với `FoodCategory` mà phụ gia được phép dùng theo quy định. |
 | `COMMON_IN` | Biểu diễn phụ gia hoặc thành phần thường gặp trong nhóm thực phẩm theo nguồn quan sát phù hợp. |
 | `OBSERVED_IN` | Biểu diễn việc một chất/thành phần được quan sát thấy trong nhãn hoặc dữ liệu product layer. |
-| `IN_CATEGORY` | Liên kết `Ingredient` với `FoodCategory` khi cần đặt nguyên liệu trong ngữ cảnh nhóm thực phẩm. |
 | `GOVERNS` | Liên kết `Regulation` với phạm vi pháp lý hoặc nhóm đối tượng mà văn bản quy định. |
 | `SUPERSEDES` | Liên kết văn bản pháp lý mới với văn bản cũ mà nó thay thế hoặc hợp nhất. |
-| `SUBJECT_OF` | Liên kết subject của `HealthClaim`, ví dụ một `Nutrient`, `Ingredient` hoặc `Additive`. |
+| `SUBJECT_OF` | Liên kết subject của `HealthClaim`, ví dụ một `Nutrient` hoặc `Additive`. |
 | `OUTCOME` | Liên kết `HealthClaim` với `HealthOutcome`. |
 | `EVIDENCED_BY` | Liên kết `HealthClaim` với `Source` chứa bằng chứng. |
-
-## Ingredient
-
-Ingredient biểu diễn nguyên liệu thực phẩm chuẩn. Một Ingredient có thể có tên tiếng Anh từ nguồn gốc, tên tiếng Việt đã kiểm soát, mã ngoài như `foodon_id`, và các alias phục vụ entity linking.
-
-Các quan hệ chính:
-
-```text
-(:Ingredient)-[:IS_A]->(:Ingredient)
-(:Ingredient)-[:IN_GROUP]->(:IngredientGroup)
-(:Ingredient)-[:SUPPORTED_BY]->(:Source)
-(:Alias)-[:REFERS_TO]->(:Ingredient)
-```
-
-`IS_A` và `IN_GROUP` có ý nghĩa khác nhau:
-
-- `IS_A` nói về bản chất ontology: A là một loại của B.
-- `IN_GROUP` nói về nhóm nghiệp vụ trong ViFood-KC: A thuộc nhóm quản lý nào.
-
-Ví dụ:
-
-```text
-Bột mì -[:IS_A]-> Bột thực phẩm
-Bột mì -[:IN_GROUP]-> Nhóm nguyên liệu bột/ngũ cốc
-```
-
-Ingredient không bị trộn với Additive. Một chất có mã INS được quản lý như `Additive`; nếu cùng một term xuất hiện trên nhãn, entity linking sẽ quyết định context thay vì tạo node trùng lặp.
 
 ## Additive và quy định
 
@@ -114,10 +79,7 @@ Các quan hệ chính:
 ```text
 (:Allergen)-[:SUPPORTED_BY]->(:Source)
 (:Alias)-[:REFERS_TO]->(:Allergen)
-(:Ingredient)-[:CONTAINS_ALLERGEN]->(:Allergen)
 ```
-
-Trong đó `CONTAINS_ALLERGEN` chỉ được tạo khi có mapping đủ chắc chắn từ ingredient sang allergen. Ví dụ “sữa bột” có thể map sang nhóm allergen “sữa”, nhưng mapping này cần release riêng có rule/source rõ ràng, không được suy diễn tự do từ LLM.
 
 ## Nutrient và HealthClaim
 
@@ -139,7 +101,6 @@ HealthClaim không phải lời khuyên y tế cá nhân. Nó là tri thức có
 Alias giúp map text trên nhãn về thực thể chuẩn. Ví dụ:
 
 ```text
-“bột lúa mì” -[:REFERS_TO]-> “Bột mì”
 “INS 330” -[:REFERS_TO]-> phụ gia tương ứng
 ```
 

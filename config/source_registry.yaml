@@ -4,20 +4,6 @@ sources:
     url: internal://vi-food-translation-seed
     roles: [reviewed_translation]
     ingestion: deterministic_mapping
-  - id: SOURCE:FOODON
-    name: FoodOn
-    url: https://github.com/FoodOntology/foodon
-    license: CC-BY-4.0
-    formats: [owl, tsv]
-    roles: [ingredient_taxonomy, food_category_taxonomy, synonyms]
-    ingestion: selective
-  - id: SOURCE:CHEBI
-    name: ChEBI
-    url: https://www.ebi.ac.uk/chebi/downloads/
-    license: CC-BY-4.0
-    formats: [tsv, json, obo, owl]
-    roles: [chemical_identifier, synonym, chemical_hierarchy]
-    ingestion: selective_future
   - id: SOURCE:FAO_INFOODS_TAGNAMES
     name: FAO/INFOODS Tagnames
     url: https://www.fao.org/infoods/infoods/standards-guidelines/food-component-identifiers-tagnames/en/
@@ -41,13 +27,6 @@ sources:
     formats: [pdf]
     roles: [vietnam_nutrition_labelling_requirement]
     ingestion: verified_legal_extraction
-  - id: SOURCE:USDA_FDC
-    name: USDA FoodData Central
-    url: https://fdc.nal.usda.gov/download-datasets/
-    license: CC0-1.0
-    formats: [csv, json, api]
-    roles: [ingredient_nutrient]
-    ingestion: selective_future
   - id: SOURCE:VN_VBHN_09_2024
     name: Văn bản hợp nhất 09/VBHN-BYT (2024)
     url: https://datafiles.chinhphu.vn/cpp/files/vbpq/2024/9/09-vbhn-byt.pdf

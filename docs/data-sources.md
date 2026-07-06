@@ -25,24 +25,16 @@ Không import dữ liệu chỉ vì “có vẻ đúng”. Dữ liệu phải c�
 
 | Nhóm nguồn | Vai trò trong ViFood-KC |
 |---|---|
-| FoodOn | Ontology thực phẩm dùng cho Ingredient, IngredientGroup, FoodCategory ngữ nghĩa, synonym và phân cấp thực phẩm. |
 | FAO/INFOODS Tagnames | Chuẩn mã định danh cho nutrient/component. |
 | Bảng thành phần thực phẩm Việt Nam | Nguồn tham chiếu cho nutrient trong bối cảnh Việt Nam. |
 | Quy định ghi nhãn dinh dưỡng Việt Nam | Xác định các nutrient liên quan đến nhãn thực phẩm tại Việt Nam. |
 | Văn bản pháp lý phụ gia Việt Nam | Nguồn chính cho Additive, FunctionalClass, FoodCategory pháp lý và giới hạn sử dụng phụ gia. |
 | Codex GSFA / JECFA | Nguồn đối chiếu quốc tế về phụ gia, chức năng và an toàn thực phẩm. |
 | WHO và nguồn y tế chính thống | Bằng chứng cho HealthClaim và HealthOutcome. |
-| ChEBI | Định danh hóa học cho các chất/compound khi cần biểu diễn ingredient dạng hóa chất. |
 | Codex CXS 1-1985 | Nguồn chuẩn cho nhóm allergen/dị ứng không dung nạp cần nhận diện trên nhãn thực phẩm đóng gói. |
 | Translation seed nội bộ | Tên tiếng Việt và alias tiếng Việt có kiểm soát, phục vụ entity linking. |
 
 ## Vai trò của từng loại nguồn
-
-### Ingredient
-
-Ingredient dùng nguồn ontology thực phẩm để chuẩn hóa nguyên liệu food-based và dùng ChEBI để định danh ingredient dạng hóa chất. Các nguyên liệu được lọc theo scope thực phẩm đóng gói để tránh import quá rộng. Tên tiếng Việt và alias tiếng Việt được quản lý riêng bằng seed có kiểm soát.
-
-Ingredient không được lấy trực tiếp từ OCR làm dữ liệu chuẩn. OCR chỉ tạo term quan sát; term đó cần được map về Ingredient chuẩn thông qua tên, alias hoặc mã định danh.
 
 ### Nutrient
 
@@ -62,7 +54,7 @@ HealthClaim phải đi kèm nguồn bằng chứng. Claim không được sinh t
 
 Allergen dùng Codex CXS 1-1985, mục ghi nhãn thực phẩm bao gói sẵn, làm nguồn chính để chuẩn hóa các nhóm dị ứng nguyên/dị ứng không dung nạp như ngũ cốc chứa gluten, giáp xác, trứng, cá, đậu phộng, đậu nành, sữa, hạt cây và sulphit.
 
-Release allergen hiện tạo `Allergen` node và `Alias` để hỗ trợ entity linking. Quan hệ giữa một `Ingredient` cụ thể và `Allergen` cụ thể sẽ được thêm bằng release mapping riêng khi có rule/source đủ rõ, tránh tự động kết luận mơ hồ.
+Release allergen hiện tạo `Allergen` node và `Alias` để hỗ trợ entity linking.
 
 ### Alias và bản dịch
 

@@ -19,8 +19,8 @@ def test_health_claim_with_required_context_is_valid() -> None:
     assert validate_curated_graph(nodes, relationships) == []
 
 def test_rejects_invalid_endpoint_and_missing_provenance() -> None:
-    nodes = [node("Nutrient", "NUTRIENT:SODIUM"), NodeRecord(label="Ingredient", id="INGREDIENT:SALT", properties={"name": "salt"})]
-    relationship = RelationshipRecord(start_id="NUTRIENT:SODIUM", end_id="INGREDIENT:SALT", type="HAS_NUTRIENT")
+    nodes = [node("Nutrient", "NUTRIENT:SODIUM"), NodeRecord(label="Additive", id="ADDITIVE:SALT", properties={"name": "salt"})]
+    relationship = RelationshipRecord(start_id="NUTRIENT:SODIUM", end_id="ADDITIVE:SALT", type="HAS_FUNCTION")
     errors = validate_curated_graph(nodes, [relationship])
     assert any("missing provenance" in error for error in errors)
     assert any("invalid endpoints" in error for error in errors)

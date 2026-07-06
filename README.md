@@ -2,12 +2,12 @@
 
 ViFood-KC là lõi tri thức cho hệ sinh thái phân tích thực phẩm đóng gói tại Việt Nam. Project này không phải ứng dụng chụp ảnh, không phải OCR, không phải hệ thống quản lý sản phẩm/SKU, mà là lớp dữ liệu chuẩn để các project khác tra cứu, liên kết và giải thích thông tin trên nhãn thực phẩm.
 
-Mục tiêu của ViFood-KC là biến các nguồn dữ liệu đáng tin cậy thành một knowledge graph có thể truy vết nguồn. Khi một hệ thống bên ngoài đọc được các từ như “bột mì”, “sữa bột”, “INS 330”, “natri”, “đường”, “chất béo bão hòa” hoặc “nước giải khát”, ViFood-KC giúp map các từ đó về thực thể chuẩn, hiểu quan hệ giữa chúng và trả về giải thích có bằng chứng.
+Mục tiêu của ViFood-KC là biến các nguồn dữ liệu đáng tin cậy thành một knowledge graph có thể truy vết nguồn. Khi một hệ thống bên ngoài đọc được các từ như “INS 330”, “natri”, “đường”, “chất béo bão hòa”, tên dị ứng nguyên hoặc nhóm thực phẩm pháp lý, ViFood-KC giúp map các từ đó về thực thể chuẩn, hiểu quan hệ giữa chúng và trả về giải thích có bằng chứng.
 
 ```text
 Nhãn sản phẩm / OCR / Product layer
         ↓
-Term trên nhãn: ingredient, additive, nutrient, category, claim
+Term trên nhãn: additive, nutrient, allergen, category, claim
         ↓
 Entity linking bằng tên chuẩn, mã chuẩn và Alias
         ↓
@@ -20,9 +20,6 @@ Giải thích thành phần, phụ gia, dinh dưỡng, sức khỏe, dị nguyê
 
 ViFood-KC đóng vai trò như “bộ não tri thức nền” cho các ứng dụng thực phẩm. Project tập trung vào các câu hỏi:
 
-- Một thành phần trên nhãn thực phẩm là gì?
-- Thành phần đó thuộc nhóm nguyên liệu nào?
-- Tên gọi khác hoặc tên tiếng Việt của nó là gì?
 - Phụ gia có mã INS/E-number nào, chức năng công nghệ là gì?
 - Phụ gia đó được quy định như thế nào trong nhóm thực phẩm liên quan?
 - Một nutrient có mã chuẩn nào, đơn vị nào và liên quan đến claim sức khỏe nào?
@@ -38,8 +35,6 @@ ViFood-KC tổ chức tri thức thành các nhóm chính:
 
 | Nhóm | Mục đích |
 |---|---|
-| `Ingredient` | Chuẩn hóa nguyên liệu thực phẩm và ingredient dạng hóa chất như bột, sữa, dầu, đường, caffeine, sodium chloride. |
-| `IngredientGroup` | Gom nguyên liệu vào các nhóm nghiệp vụ dễ query, ví dụ nhóm nguyên liệu sữa, bột/ngũ cốc, đường hóa học hoặc khoáng hóa học. |
 | `Nutrient` | Chuẩn hóa dưỡng chất bằng mã và tên từ nguồn dinh dưỡng đáng tin cậy. |
 | `Additive` | Chuẩn hóa phụ gia thực phẩm, mã INS/E-number, tên. |
 | `FoodCategory` | Biểu diễn nhóm thực phẩm, đặc biệt là nhóm pháp lý dùng trong quy định phụ gia. |
@@ -88,22 +83,10 @@ Neo4j graph
 
 ViFood-KC ưu tiên graph rõ nghĩa hơn là nhồi nhiều thông tin vào property.
 
-Ví dụ nhóm nguyên liệu không được lưu như một mảng property trên `Ingredient`. Thay vào đó:
-
-```text
-(:Ingredient)-[:IN_GROUP]->(:IngredientGroup)
-```
-
-Phân cấp bản chất giữa nguyên liệu dùng:
-
-```text
-(:Ingredient)-[:IS_A]->(:Ingredient)
-```
-
 Tên gọi khác dùng:
 
 ```text
-(:Alias)-[:REFERS_TO]->(:Ingredient | :Additive | :Nutrient | :FoodCategory | :Allergen)
+(:Alias)-[:REFERS_TO]->(:Additive | :Nutrient | :FoodCategory | :Allergen)
 ```
 
 Nguồn dữ liệu dùng:
@@ -127,12 +110,12 @@ Một project chụp ảnh/OCR có thể dùng ViFood-KC theo flow:
 ```text
 Ảnh sản phẩm
   → OCR lấy text nhãn
-  → tách term thành phần / phụ gia / dinh dưỡng
+  → tách term phụ gia / dinh dưỡng / dị ứng nguyên / nhóm thực phẩm
   → gọi ViFood-KC để entity linking
   → nhận lại node chuẩn, alias, quan hệ, nguồn và giải thích
 ```
 
-Ví dụ nếu OCR đọc được “bột lúa mì”, hệ thống có thể map về Ingredient chuẩn “Bột mì”. Nếu OCR đọc được “INS 330”, hệ thống có thể map về phụ gia tương ứng, chức năng công nghệ và quy định liên quan.
+Ví dụ nếu OCR đọc được “INS 330”, hệ thống có thể map về phụ gia tương ứng, chức năng công nghệ và quy định liên quan. Nếu OCR đọc được một nutrient hoặc allergen, hệ thống có thể map về thực thể chuẩn tương ứng khi release hiện có hỗ trợ alias đó.
 
 ## Cấu trúc dữ liệu đầu ra
 
@@ -144,7 +127,7 @@ data/curated/relationships/<release>.json
 data/curated/releases/<release>.attested.yaml
 ```
 
-File nodes chứa các node chuẩn như `Ingredient`, `Additive`, `Nutrient`, `Alias`, `Source`. File relationships chứa các quan hệ như `IS_A`, `IN_GROUP`, `REFERS_TO`, `SUPPORTED_BY`, `PERMITTED_IN`. File attested manifest chứa metadata release và hash của nguồn.
+File nodes chứa các node chuẩn như `Additive`, `Nutrient`, `FoodCategory`, `Allergen`, `Alias`, `Source`. File relationships chứa các quan hệ như `REFERS_TO`, `SUPPORTED_BY`, `PERMITTED_IN`, `HAS_FUNCTION`. File attested manifest chứa metadata release và hash của nguồn.
 
 ## Chạy project
 
