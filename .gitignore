@@ -9,6 +9,13 @@ __pycache__/
 logs/*
 *.log
 
+# Local workflow artifacts
+.specify/
+.agents/
+specs/
+AGENTS.md
+RTK.md
+
 # Local generated/runtime artifacts
 data/raw/**
 data/staging/**
