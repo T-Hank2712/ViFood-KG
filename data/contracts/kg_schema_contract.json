@@ -1,0 +1,68 @@
+{
+  "contract_version": "2026-07-13.1",
+  "producer_project": "ViFood-KG",
+  "consumer_project": "ViFood-KG-Builder",
+  "canonical_boundary": {
+    "producer_role": "curated knowledge core",
+    "consumer_role": "runtime AI extraction, matching, and controlled create",
+    "runtime_data_policy": "Runtime observations must not be silently promoted into curated releases."
+  },
+  "release_contracts": {
+    "nutrient": "nutrients_vietnam_infoods_v0.2.0",
+    "additive": "vietnam_additive_master_v0.1.2",
+    "additive_permissions": "vietnam_additive_permissions_2a_v0.1.0"
+  },
+  "supported_entities": {
+    "nutrient": {
+      "label": "Nutrient",
+      "canonical_status": "catalog_first",
+      "id_format": "NUTRIENT:INFOODS_{TAGNAME}",
+      "required_properties": ["name", "external_code", "default_unit", "status", "reviewed_at"],
+      "optional_properties": ["name_vi", "vietnam_label_requirement", "source_version"],
+      "match_keys": [
+        "external_code",
+        "normalized(name_vi)",
+        "normalized(name)",
+        "Alias.name via REFERS_TO"
+      ],
+      "relationships": ["SUPPORTED_BY", "REFERS_TO"],
+      "runtime_create_policy": "match_catalog_first_then_nutrient_specific_create_with_provenance"
+    },
+    "additive": {
+      "label": "Additive",
+      "canonical_status": "catalog_first",
+      "id_format": "ADDITIVE:INS_{NORMALIZED_INS}",
+      "required_properties": ["name", "ins", "status", "reviewed_at"],
+      "optional_properties": ["name_vi", "raw_page_number", "raw_record_number"],
+      "match_keys": [
+        "normalized(ins)",
+        "E-number Alias.name via REFERS_TO",
+        "normalized(name_vi)",
+        "normalized(name)",
+        "Alias.name via REFERS_TO"
+      ],
+      "relationships": ["SUPPORTED_BY", "REFERS_TO", "HAS_FUNCTION", "PERMITTED_IN", "GOVERNS"],
+      "runtime_create_policy": "match_catalog_first_then_additive_specific_create_with_provenance"
+    },
+    "ingredient": {
+      "label": "Ingredient",
+      "canonical_status": "no_catalog_bootstrap_current_phase",
+      "id_format": "INGREDIENT:{WIKIDATA_QID}",
+      "required_properties": ["id", "name"],
+      "optional_properties": ["wikidata_id", "name_vi", "name_en", "description_vi", "description_en"],
+      "match_keys": [
+        "existing Ingredient identity in target graph",
+        "wikidata_id when present",
+        "normalized(name)"
+      ],
+      "relationships": ["SUPPORTED_BY", "REFERS_TO", "BELONGS_TO", "HAS_USAGE"],
+      "runtime_create_policy": "graph_first_then_wikidata_enrich_create"
+    }
+  },
+  "provenance_rules": {
+    "business_node_source_url_property": "forbidden_when_source_node_exists",
+    "entity_source_relationship": "SUPPORTED_BY",
+    "health_claim_source_relationship": "EVIDENCED_BY",
+    "alias_relationship": "REFERS_TO"
+  }
+}
