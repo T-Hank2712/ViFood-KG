@@ -20,8 +20,7 @@
     "end_id": "SOURCE:WHO_HEALTHY_DIET",
     "type": "EVIDENCED_BY",
     "properties": {
-      "evidence_role": "primary",
-      "evidence_excerpt": "total energy intake is balanced with energy expenditure"
+      "evidence_role": "primary"
     }
   },
   {
@@ -45,8 +44,7 @@
     "end_id": "SOURCE:WHO_HEALTHY_DIET",
     "type": "EVIDENCED_BY",
     "properties": {
-      "evidence_role": "primary",
-      "evidence_excerpt": "carbohydrates provide the primary energy source for the body"
+      "evidence_role": "primary"
     }
   },
   {
@@ -70,8 +68,7 @@
     "end_id": "SOURCE:WHO_HEALTHY_DIET",
     "type": "EVIDENCED_BY",
     "properties": {
-      "evidence_role": "primary",
-      "evidence_excerpt": "proteins provide the building blocks for many of the structural elements of the body"
+      "evidence_role": "primary"
     }
   },
   {
@@ -95,8 +92,7 @@
     "end_id": "SOURCE:WHO_HEALTHY_DIET",
     "type": "EVIDENCED_BY",
     "properties": {
-      "evidence_role": "primary",
-      "evidence_excerpt": "fat is an essential nutrient for proper functioning of cells in the body"
+      "evidence_role": "primary"
     }
   },
   {
@@ -120,8 +116,7 @@
     "end_id": "SOURCE:WHO_HEALTHY_DIET",
     "type": "EVIDENCED_BY",
     "properties": {
-      "evidence_role": "primary",
-      "evidence_excerpt": "no more than 10% of total energy intake should come from saturated fat"
+      "evidence_role": "primary"
     }
   },
   {
@@ -145,8 +140,7 @@
     "end_id": "SOURCE:WHO_HEALTHY_DIET",
     "type": "EVIDENCED_BY",
     "properties": {
-      "evidence_role": "primary",
-      "evidence_excerpt": "high intake of sodium (salt) is associated with increased blood pressure"
+      "evidence_role": "primary"
     }
   },
   {
@@ -250,8 +244,199 @@
     "end_id": "SOURCE:WHO_HEALTHY_DIET",
     "type": "EVIDENCED_BY",
     "properties": {
-      "evidence_role": "primary",
-      "evidence_excerpt": "micronutrients are essential vitamins and minerals"
+      "evidence_role": "primary"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_ENERC",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "OUTCOME:ENERGY_BALANCE",
+    "end_id": "SOURCE:WHO_HEALTHY_DIET",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "healthoutcome"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_CHOCDF",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "OUTCOME:ENERGY_SUPPLY",
+    "end_id": "SOURCE:WHO_HEALTHY_DIET",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "healthoutcome"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_PROCNT",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "OUTCOME:BODY_STRUCTURE_AND_FUNCTION",
+    "end_id": "SOURCE:WHO_HEALTHY_DIET",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "healthoutcome"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_FAT",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "OUTCOME:CELL_FUNCTION",
+    "end_id": "SOURCE:WHO_HEALTHY_DIET",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "healthoutcome"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_FASAT",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "OUTCOME:SATURATED_FAT_INTAKE_LIMIT",
+    "end_id": "SOURCE:WHO_HEALTHY_DIET",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "healthoutcome"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_NA",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "OUTCOME:HIGH_BLOOD_PRESSURE",
+    "end_id": "SOURCE:WHO_HEALTHY_DIET",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "healthoutcome"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_CA",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_FE",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_ZN",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_NIA",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_RIBF",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_THIA",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_VITA",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_VITB6A",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_VITB12",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_VITC",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "NUTRIENT:INFOODS_VITD",
+    "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "nutrient"
+    }
+  },
+  {
+    "start_id": "OUTCOME:PROPER_GROWTH_AND_HEALTH",
+    "end_id": "SOURCE:WHO_HEALTHY_DIET",
+    "type": "SUPPORTED_BY",
+    "properties": {
+      "context": "healthoutcome"
     }
   }
 ]

@@ -29,6 +29,8 @@ ViFood-KC đóng vai trò như “bộ não tri thức nền” cho các ứng d
 
 ViFood-KC không biến dữ liệu OCR, nội dung do LLM sinh ra hoặc quan sát từ một sản phẩm đơn lẻ thành tri thức chuẩn. Các quan sát thực tế có thể được dùng để liên kết hoặc bổ sung ngữ cảnh, nhưng tri thức chuẩn phải đi qua source registry, release manifest, hash nguồn và quality gate.
 
+Provenance trong graph hiện được biểu diễn bằng relationship tới `Source`. Node nghiệp vụ không lặp lại `source` hoặc `source_url` dưới dạng property; thông tin URL nằm trên `Source.url`, còn liên kết nguồn nằm ở `SUPPORTED_BY` hoặc `EVIDENCED_BY`.
+
 ## Các nhóm tri thức chính
 
 ViFood-KC tổ chức tri thức thành các nhóm chính:
@@ -76,7 +78,7 @@ Neo4j graph
 - `Transformer`: chuẩn hóa dữ liệu, tạo node/relationship, lọc theo scope và loại bỏ alias mơ hồ.
 - `Curated release`: bộ dữ liệu được phép import.
 - `Attested manifest`: manifest kèm hash SHA-256 của các file nguồn.
-- `Quality gate`: kiểm tra schema, source, provenance, endpoint relationship và alias trước khi import.
+- `Quality gate`: kiểm tra schema, source registry, provenance relationship, endpoint relationship và alias trước khi import.
 - `Neo4j`: graph database lưu tri thức đã qua kiểm soát.
 
 ## Nguyên tắc thiết kế graph
@@ -89,10 +91,16 @@ Tên gọi khác dùng:
 (:Alias)-[:REFERS_TO]->(:Additive | :Nutrient | :FoodCategory | :Allergen)
 ```
 
-Nguồn dữ liệu dùng:
+Nguồn dữ liệu dùng relationship riêng:
 
 ```text
 (:Entity)-[:SUPPORTED_BY]->(:Source)
+```
+
+Riêng claim sức khỏe dùng:
+
+```text
+(:HealthClaim)-[:EVIDENCED_BY]->(:Source)
 ```
 
 Quy định phụ gia dùng:
@@ -149,6 +157,12 @@ NEO4J_DATABASE
 ```
 
 Trước khi import dữ liệu, chạy constraint trong [constraints.cypher](neo4j/cypher/constraints.cypher).
+
+Để xóa graph hiện tại và import lại toàn bộ curated release:
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/reimport_curated.py --clear --yes
+```
 
 Xem thêm:
 

@@ -4,7 +4,7 @@ source_ids:
 - SOURCE:FAO_INFOODS_TAGNAMES
 - SOURCE:WHO_HEALTHY_DIET
 node_count: 33
-relationship_count: 31
+relationship_count: 55
 notes: WHO Healthy Diet claims whose configured evidence excerpts were verified against
   the raw snapshot.
 raw_snapshot:

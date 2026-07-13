@@ -27,7 +27,6 @@ def build_release(staging_file: Path, nutrient_nodes_file: Path, reviewed_at: st
         "label": "Source", "id": WHO_SOURCE_ID,
         "properties": {
             "name": "WHO Healthy Diet", "source_type": "public-health-guidance", "url": WHO_SOURCE_URL,
-            "source": WHO_SOURCE_ID, "source_url": WHO_SOURCE_URL,
             "reviewed_at": reviewed_at, "status": "active",
         },
     }
@@ -48,17 +47,16 @@ def build_release(staging_file: Path, nutrient_nodes_file: Path, reviewed_at: st
         outcome = {
             "label": "HealthOutcome", "id": record["outcome_id"],
             "properties": {
-                "name": record["outcome_name"], "source": WHO_SOURCE_ID, "source_url": WHO_SOURCE_URL,
+                "name": record["outcome_name"],
                 "reviewed_at": reviewed_at, "status": "active",
             },
         }
         claim = {
             "label": "HealthClaim", "id": record["id"],
             "properties": {
-                "name": record["claim_text"], "claim_text": record["claim_text"],
+                "claim_text": record["claim_text"],
                 "conditions_of_use": record["conditions_of_use"], "evidence_level": record["evidence_level"],
-                "evidence_excerpt": record["evidence_excerpt"], "source": WHO_SOURCE_ID,
-                "source_url": WHO_SOURCE_URL, "reviewed_at": reviewed_at, "status": "active",
+                "evidence_excerpt": record["evidence_excerpt"], "reviewed_at": reviewed_at, "status": "active",
             },
         }
         nodes.extend([outcome, claim])
@@ -68,6 +66,7 @@ def build_release(staging_file: Path, nutrient_nodes_file: Path, reviewed_at: st
                 for nutrient in nutrients
             ],
             {"start_id": claim["id"], "end_id": outcome["id"], "type": "OUTCOME", "properties": {"effect_direction": record["effect_direction"]}},
-            {"start_id": claim["id"], "end_id": WHO_SOURCE_ID, "type": "EVIDENCED_BY", "properties": {"evidence_role": "primary", "evidence_excerpt": record["evidence_excerpt"]}},
+            {"start_id": claim["id"], "end_id": WHO_SOURCE_ID, "type": "EVIDENCED_BY", "properties": {"evidence_role": "primary"}},
+            {"start_id": outcome["id"], "end_id": WHO_SOURCE_ID, "type": "SUPPORTED_BY", "properties": {"context": "health-outcome"}},
         ])
     return nodes, relationships

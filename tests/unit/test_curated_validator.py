@@ -3,12 +3,12 @@ from food_kg.validators import validate_curated_graph
 
 def node(label: str, identifier: str, **properties: object) -> NodeRecord:
     return NodeRecord(label=label, id=identifier, properties={
-        "name": identifier, "source": "SOURCE:TEST", "source_url": "https://example.test", "reviewed_at": "2026-01-01", **properties,
+        "name": identifier, "reviewed_at": "2026-01-01", **properties,
     })
 
 def test_health_claim_with_required_context_is_valid() -> None:
     nodes = [
-        node("HealthClaim", "CLAIM:TEST", conditions_of_use="population context", evidence_level="high"),
+        node("HealthClaim", "CLAIM:TEST", claim_text="Test claim", conditions_of_use="population context", evidence_level="high"),
         node("Nutrient", "NUTRIENT:SODIUM"), node("HealthOutcome", "OUTCOME:BP"), node("Source", "SOURCE:TEST"),
     ]
     relationships = [

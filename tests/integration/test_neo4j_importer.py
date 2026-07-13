@@ -25,7 +25,7 @@ def test_nutrient_release_import_is_idempotent() -> None:
         importer.import_release(nodes, relationships)
         importer.import_release(nodes, relationships)
         with importer.driver.session(database=importer.database) as session:
-            count = session.run("MATCH (n:Nutrient) WHERE n.source = 'SOURCE:FAO_INFOODS_TAGNAMES' RETURN count(n) AS count").single()["count"]
+            count = session.run("MATCH (n:Nutrient)-[:SUPPORTED_BY]->(:Source {id: 'SOURCE:FAO_INFOODS_TAGNAMES'}) RETURN count(n) AS count").single()["count"]
         assert count == 21
     finally:
         importer.close()

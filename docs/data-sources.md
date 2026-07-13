@@ -10,6 +10,13 @@ Source không chỉ là thông tin tham khảo. Trong graph, source là một ph
 
 Điều này giúp mọi node hoặc relationship quan trọng đều trả lời được câu hỏi: “Dữ liệu này đến từ đâu?”
 
+Các node nghiệp vụ không lưu `source` hoặc `source_url` như property. Thông tin nguồn nằm ở `Source.url` và ở relationship provenance:
+
+```text
+(:Entity)-[:SUPPORTED_BY]->(:Source)
+(:HealthClaim)-[:EVIDENCED_BY]->(:Source)
+```
+
 ## Nguyên tắc chọn nguồn
 
 ViFood-KC ưu tiên nguồn theo thứ tự:
@@ -48,7 +55,7 @@ Codex hoặc nguồn quốc tế có thể dùng để đối chiếu, nhưng kh
 
 ### HealthClaim
 
-HealthClaim phải đi kèm nguồn bằng chứng. Claim không được sinh tự do từ LLM. Một claim hợp lệ cần có subject, outcome, điều kiện áp dụng, mức bằng chứng và source.
+HealthClaim phải đi kèm nguồn bằng chứng. Claim không được sinh tự do từ LLM. Một claim hợp lệ cần có `claim_text`, subject, outcome, điều kiện áp dụng, mức bằng chứng và relationship `EVIDENCED_BY` tới `Source`.
 
 ### Allergen
 
@@ -77,7 +84,7 @@ Registry định nghĩa:
 - Kiểu ingest được phép.
 - License hoặc ghi chú khi cần.
 
-Quality gate dùng registry để kiểm tra release. Nếu một node tham chiếu source không có trong registry, release sẽ bị từ chối.
+Quality gate dùng registry để kiểm tra release. Nếu manifest khai báo source không có trong registry, thiếu `Source` node, hoặc node nghiệp vụ không có relationship provenance tới source trong release, release sẽ bị từ chối.
 
 ## Snapshot và attestation
 

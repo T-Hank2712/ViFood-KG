@@ -8,14 +8,12 @@ Mỗi node chuẩn đều có các thuộc tính nền tảng:
 
 - `id`: mã nội bộ ổn định trong graph.
 - `name`: tên chuẩn.
-- `source`: nguồn chính của dữ liệu.
-- `source_url`: URL hoặc vị trí nguồn.
 - `reviewed_at`: ngày dữ liệu được review/release.
 - `status`: trạng thái dữ liệu, ví dụ `active` hoặc `deprecated`.
 
 Các thuộc tính chuyên biệt như `name_vi`, `ins`, `external_code` hoặc `source_iri` được thêm tùy loại node.
 
-Thông tin có bản chất là quan hệ nên được biểu diễn bằng relationship, không nhồi vào property.
+Thông tin có bản chất là quan hệ nên được biểu diễn bằng relationship, không nhồi vào property. Provenance cũng đi qua relationship tới `Source`, nên node nghiệp vụ không có property `source` hoặc `source_url`.
 
 ## Node labels
 
@@ -27,7 +25,7 @@ Thông tin có bản chất là quan hệ nên được biểu diễn bằng rel
 | `FoodCategory` | Nhóm thực phẩm, đặc biệt là nhóm pháp lý dùng để biểu diễn quy định phụ gia. |
 | `Allergen` | Dị ứng nguyên thực phẩm hoặc nhóm chất gây không dung nạp được chuẩn hóa từ nguồn như Codex CXS 1-1985. |
 | `Alias` | Tên gọi khác hoặc token dùng để map text trên nhãn về thực thể chuẩn. |
-| `HealthClaim` | Claim sức khỏe có điều kiện áp dụng và nguồn bằng chứng. |
+| `HealthClaim` | Claim sức khỏe có `claim_text`, điều kiện áp dụng, mức bằng chứng và nguồn bằng chứng. |
 | `HealthOutcome` | Kết quả sức khỏe hoặc tác động sức khỏe được claim đề cập. |
 | `Regulation` | Văn bản pháp lý hoặc tài liệu quy định. |
 | `Source` | Nguồn dữ liệu, nguồn pháp lý hoặc nguồn bằng chứng khoa học. |
@@ -46,7 +44,7 @@ Thông tin có bản chất là quan hệ nên được biểu diễn bằng rel
 | `SUPERSEDES` | Liên kết văn bản pháp lý mới với văn bản cũ mà nó thay thế hoặc hợp nhất. |
 | `SUBJECT_OF` | Liên kết subject của `HealthClaim`, ví dụ một `Nutrient` hoặc `Additive`. |
 | `OUTCOME` | Liên kết `HealthClaim` với `HealthOutcome`. |
-| `EVIDENCED_BY` | Liên kết `HealthClaim` với `Source` chứa bằng chứng. |
+| `EVIDENCED_BY` | Liên kết `HealthClaim` với `Source` chứa bằng chứng; nội dung bằng chứng nằm trên node claim, không lặp lại trên relationship. |
 
 ## Additive và quy định
 
@@ -96,6 +94,8 @@ Các quan hệ chính:
 
 HealthClaim không phải lời khuyên y tế cá nhân. Nó là tri thức có điều kiện, có nguồn và có phạm vi áp dụng.
 
+`HealthClaim` dùng `claim_text` làm nội dung claim. Không tạo thêm `name` nếu giá trị chỉ trùng với `claim_text`.
+
 ## Alias và entity linking
 
 Alias giúp map text trên nhãn về thực thể chuẩn. Ví dụ:
@@ -124,8 +124,8 @@ Quality gate là lớp kiểm tra trước khi dữ liệu vào Neo4j. Nó bảo
 
 Quality gate kiểm tra:
 
-- node có đủ provenance không.
-- source có nằm trong registry không.
+- node có đủ metadata tối thiểu không.
+- source có nằm trong registry và có relationship provenance không.
 - manifest có đủ metadata không.
 - hash raw snapshot có khớp không.
 - relationship có endpoint hợp lệ không.

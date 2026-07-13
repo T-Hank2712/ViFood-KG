@@ -42,8 +42,6 @@ def build_release(records: list[dict], reviewed_at: str) -> tuple[list[dict], li
             "name": "Codex General Standard for the Labelling of Prepackaged Foods",
             "source_type": "standard",
             "url": SOURCE_URL,
-            "source": CODEX_SOURCE_ID,
-            "source_url": SOURCE_URL,
             "reviewed_at": reviewed_at,
             "status": "active",
         },
@@ -67,8 +65,6 @@ def build_release(records: list[dict], reviewed_at: str) -> tuple[list[dict], li
             "codex_text": record["codex_text"],
             "examples": record.get("examples", []),
             "examples_vi": record.get("examples_vi", []),
-            "source": CODEX_SOURCE_ID,
-            "source_url": record["source_url"],
             "reviewed_at": reviewed_at,
             "status": "active",
         }
@@ -100,13 +96,14 @@ def build_release(records: list[dict], reviewed_at: str) -> tuple[list[dict], li
                     "normalized_name": alias_key,
                     "language": detect_language(alias),
                     "alias_type": "allergen_alias",
-                    "source": CODEX_SOURCE_ID,
-                    "source_url": record["source_url"],
                     "reviewed_at": reviewed_at,
                     "status": "active",
                 },
             })
-            relationships.append({"start_id": aid, "end_id": node_id, "type": "REFERS_TO", "properties": {"source": CODEX_SOURCE_ID}})
+            relationships.extend([
+                {"start_id": aid, "end_id": node_id, "type": "REFERS_TO", "properties": {}},
+                {"start_id": aid, "end_id": CODEX_SOURCE_ID, "type": "SUPPORTED_BY", "properties": {"context": "allergen-alias"}},
+            ])
     return nodes, relationships
 
 

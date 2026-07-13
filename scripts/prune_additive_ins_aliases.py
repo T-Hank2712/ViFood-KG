@@ -11,11 +11,13 @@ from neo4j import GraphDatabase
 
 SOURCE_ID = "SOURCE:VN_VBHN_09_2024"
 MATCH = """
-MATCH (alias:Alias {source: $source_id, alias_type: 'ins-code'})-[:REFERS_TO]->(:Additive)
+MATCH (alias:Alias {alias_type: 'ins-code'})-[:SUPPORTED_BY]->(:Source {id: $source_id})
+MATCH (alias)-[:REFERS_TO]->(:Additive)
 RETURN count(DISTINCT alias) AS count
 """
 DELETE = """
-MATCH (alias:Alias {source: $source_id, alias_type: 'ins-code'})-[:REFERS_TO]->(:Additive)
+MATCH (alias:Alias {alias_type: 'ins-code'})-[:SUPPORTED_BY]->(:Source {id: $source_id})
+MATCH (alias)-[:REFERS_TO]->(:Additive)
 WITH DISTINCT alias
 DETACH DELETE alias
 RETURN count(alias) AS deleted

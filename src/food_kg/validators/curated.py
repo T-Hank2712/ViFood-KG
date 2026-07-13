@@ -7,7 +7,7 @@ from typing import Iterable
 
 from food_kg.models import NodeRecord, RelationshipRecord
 
-REQUIRED_PROVENANCE = {"source", "source_url", "reviewed_at"}
+REQUIRED_PROVENANCE = {"reviewed_at"}
 RELATION_ENDPOINTS = {
     "HAS_FUNCTION": {("Additive", "FunctionalClass")}, "PERMITTED_IN": {("Additive", "FoodCategory")},
     "COMMON_IN": {("Additive", "FoodCategory")}, "OBSERVED_IN": {("Additive", "FoodCategory")},
@@ -16,7 +16,11 @@ RELATION_ENDPOINTS = {
     "OUTCOME": {("HealthClaim", "HealthOutcome")}, "EVIDENCED_BY": {("HealthClaim", "Source")},
     "GOVERNS": {("Regulation", "Additive")},
     "BROADER_THAN": {("FoodCategory", "FoodCategory")},
-    "SUPPORTED_BY": {("Nutrient", "Source"), ("Additive", "Source"), ("FoodCategory", "Source"), ("Regulation", "Source"), ("Allergen", "Source")},
+    "SUPPORTED_BY": {
+        ("Alias", "Source"), ("Allergen", "Source"), ("Additive", "Source"),
+        ("FoodCategory", "Source"), ("FunctionalClass", "Source"),
+        ("HealthOutcome", "Source"), ("Nutrient", "Source"), ("Regulation", "Source"),
+    },
     "SUPERSEDES": {("Regulation", "Regulation")},
 }
 
@@ -31,9 +35,6 @@ def validate_curated_graph(nodes: Iterable[NodeRecord], relationships: Iterable[
         missing = REQUIRED_PROVENANCE - node.properties.keys()
         if missing:
             errors.append(f"{node.id}: missing provenance {sorted(missing)}")
-        source_id = node.properties.get("source")
-        if source_id and labels.get(source_id) != "Source":
-            errors.append(f"{node.id}: source must reference a Source node in this release ({source_id})")
     relation_count = defaultdict(int)
     for rel in relationships:
         start_label, end_label = labels.get(rel.start_id), labels.get(rel.end_id)
@@ -48,7 +49,7 @@ def validate_curated_graph(nodes: Iterable[NodeRecord], relationships: Iterable[
         for relation in ("SUBJECT_OF", "OUTCOME", "EVIDENCED_BY"):
             if not relation_count[(claim.id, relation)]:
                 errors.append(f"{claim.id}: missing required {relation}")
-        for field in ("conditions_of_use", "evidence_level", "source", "source_url", "reviewed_at"):
+        for field in ("claim_text", "conditions_of_use", "evidence_level", "reviewed_at"):
             if not claim.properties.get(field):
                 errors.append(f"{claim.id}: missing health-claim field {field}")
     return errors

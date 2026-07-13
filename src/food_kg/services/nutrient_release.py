@@ -24,7 +24,6 @@ def build_release(candidates: list[dict], reviewed_at: str) -> tuple[list[dict],
         "properties": {
             "name": "FAO/INFOODS Food Component Identifiers (Tagnames)",
             "source_type": "standard", "url": SOURCE_URL,
-            "source": SOURCE_ID, "source_url": SOURCE_URL,
             "reviewed_at": reviewed_at, "status": "active",
         },
     }
@@ -37,7 +36,6 @@ def build_release(candidates: list[dict], reviewed_at: str) -> tuple[list[dict],
         "properties": {
             "name": "SMILING Food Composition Table for Vietnam (2013)",
             "source_type": "food-composition-table", "url": VIETNAM_FCT_SOURCE_URL,
-            "source": VIETNAM_FCT_SOURCE_ID, "source_url": VIETNAM_FCT_SOURCE_URL,
             "reviewed_at": reviewed_at, "status": "active",
         },
     }
@@ -50,36 +48,46 @@ def build_release(candidates: list[dict], reviewed_at: str) -> tuple[list[dict],
         "properties": {
             "name": "Thông tư 29/2023/TT-BYT về ghi thành phần, giá trị dinh dưỡng trên nhãn thực phẩm",
             "source_type": "regulation", "url": VIETNAM_LABELING_SOURCE_URL,
-            "source": VIETNAM_LABELING_SOURCE_ID, "source_url": VIETNAM_LABELING_SOURCE_URL,
             "reviewed_at": reviewed_at, "status": "active",
         },
     }
     approved, relationships = [], []
     for candidate in candidates:
-        nutrient = {**candidate, "properties": {**candidate["properties"], "status": "active", "reviewed_at": reviewed_at}}
+        source_properties = candidate["properties"]
+        properties = {
+            key: value
+            for key, value in source_properties.items()
+            if key not in {
+                "source", "source_url",
+                "vietnam_presence_source", "vietnam_presence_source_url",
+                "vietnam_fct_columns", "vietnam_fct_value_count",
+                "vietnam_labeling_source", "vietnam_labeling_source_url",
+                "vietnam_labeling_source_page", "vietnam_legal_reference",
+            }
+        }
+        nutrient = {**candidate, "properties": {**properties, "status": "active", "reviewed_at": reviewed_at}}
         approved.append(nutrient)
-        properties = nutrient["properties"]
         relationships.append({
             "start_id": nutrient["id"], "end_id": SOURCE_ID, "type": "SUPPORTED_BY",
-            "properties": {"context": "nutrient-master", "source_tagname": properties["external_code"]},
+            "properties": {"context": "nutrient-master", "source_tagname": source_properties["external_code"]},
         })
-        if properties.get("vietnam_presence_source") == VIETNAM_FCT_SOURCE_ID:
+        if source_properties.get("vietnam_presence_source") == VIETNAM_FCT_SOURCE_ID:
             relationships.append({
                 "start_id": nutrient["id"], "end_id": VIETNAM_FCT_SOURCE_ID, "type": "SUPPORTED_BY",
                 "properties": {
                     "context": "vietnam-food-composition-presence",
-                    "source_columns": properties["vietnam_fct_columns"],
-                    "food_records_with_value": properties["vietnam_fct_value_count"],
+                    "source_columns": source_properties["vietnam_fct_columns"],
+                    "food_records_with_value": source_properties["vietnam_fct_value_count"],
                 },
             })
-        if properties.get("vietnam_labeling_source") == VIETNAM_LABELING_SOURCE_ID:
+        if source_properties.get("vietnam_labeling_source") == VIETNAM_LABELING_SOURCE_ID:
             relationships.append({
                 "start_id": nutrient["id"], "end_id": VIETNAM_LABELING_SOURCE_ID, "type": "SUPPORTED_BY",
                 "properties": {
                     "context": "vietnam-nutrition-labelling",
-                    "requirement": properties["vietnam_label_requirement"],
-                    "legal_reference": properties["vietnam_legal_reference"],
-                    "source_page": properties["vietnam_labeling_source_page"],
+                    "requirement": source_properties["vietnam_label_requirement"],
+                    "legal_reference": source_properties["vietnam_legal_reference"],
+                    "source_page": source_properties["vietnam_labeling_source_page"],
                 },
             })
     sources = [

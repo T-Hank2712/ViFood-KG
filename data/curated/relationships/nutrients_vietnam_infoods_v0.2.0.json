@@ -4,8 +4,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "ASH"
+      "context": "nutrient-master"
     }
   },
   {
@@ -25,8 +24,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "CA"
+      "context": "nutrient-master"
     }
   },
   {
@@ -46,8 +44,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "CHOCDF"
+      "context": "nutrient-master"
     }
   },
   {
@@ -68,7 +65,6 @@
     "type": "SUPPORTED_BY",
     "properties": {
       "context": "vietnam-nutrition-labelling",
-      "requirement": "required",
       "legal_reference": "Điều 5 khoản 1 điểm c",
       "source_page": 4
     }
@@ -78,8 +74,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "ENERC"
+      "context": "nutrient-master"
     }
   },
   {
@@ -100,7 +95,6 @@
     "type": "SUPPORTED_BY",
     "properties": {
       "context": "vietnam-nutrition-labelling",
-      "requirement": "required",
       "legal_reference": "Điều 5 khoản 1 điểm a",
       "source_page": 3
     }
@@ -110,8 +104,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "FASAT"
+      "context": "nutrient-master"
     }
   },
   {
@@ -120,7 +113,6 @@
     "type": "SUPPORTED_BY",
     "properties": {
       "context": "vietnam-nutrition-labelling",
-      "requirement": "conditional",
       "legal_reference": "Điều 5 khoản 3",
       "source_page": 4
     }
@@ -130,8 +122,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "FAT"
+      "context": "nutrient-master"
     }
   },
   {
@@ -152,7 +143,6 @@
     "type": "SUPPORTED_BY",
     "properties": {
       "context": "vietnam-nutrition-labelling",
-      "requirement": "required",
       "legal_reference": "Điều 5 khoản 1 điểm d",
       "source_page": 4
     }
@@ -162,8 +152,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "FE"
+      "context": "nutrient-master"
     }
   },
   {
@@ -183,8 +172,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "FIBC"
+      "context": "nutrient-master"
     }
   },
   {
@@ -204,8 +192,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "NA"
+      "context": "nutrient-master"
     }
   },
   {
@@ -214,7 +201,6 @@
     "type": "SUPPORTED_BY",
     "properties": {
       "context": "vietnam-nutrition-labelling",
-      "requirement": "required",
       "legal_reference": "Điều 5 khoản 1 điểm đ",
       "source_page": 4
     }
@@ -224,8 +210,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "NIA"
+      "context": "nutrient-master"
     }
   },
   {
@@ -245,8 +230,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "PROCNT"
+      "context": "nutrient-master"
     }
   },
   {
@@ -267,7 +251,6 @@
     "type": "SUPPORTED_BY",
     "properties": {
       "context": "vietnam-nutrition-labelling",
-      "requirement": "required",
       "legal_reference": "Điều 5 khoản 1 điểm b",
       "source_page": 4
     }
@@ -277,8 +260,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "RIBF"
+      "context": "nutrient-master"
     }
   },
   {
@@ -298,8 +280,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "SUGAR"
+      "context": "nutrient-master"
     }
   },
   {
@@ -308,7 +289,6 @@
     "type": "SUPPORTED_BY",
     "properties": {
       "context": "vietnam-nutrition-labelling",
-      "requirement": "conditional",
       "legal_reference": "Điều 5 khoản 2",
       "source_page": 4
     }
@@ -318,8 +298,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "THIA"
+      "context": "nutrient-master"
     }
   },
   {
@@ -339,8 +318,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "VITA"
+      "context": "nutrient-master"
     }
   },
   {
@@ -360,8 +338,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "VITB6A"
+      "context": "nutrient-master"
     }
   },
   {
@@ -381,8 +358,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "VITB12"
+      "context": "nutrient-master"
     }
   },
   {
@@ -402,8 +378,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "VITC"
+      "context": "nutrient-master"
     }
   },
   {
@@ -423,8 +398,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "VITD"
+      "context": "nutrient-master"
     }
   },
   {
@@ -444,8 +418,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "WATER"
+      "context": "nutrient-master"
     }
   },
   {
@@ -465,8 +438,7 @@
     "end_id": "SOURCE:FAO_INFOODS_TAGNAMES",
     "type": "SUPPORTED_BY",
     "properties": {
-      "context": "nutrient-master",
-      "source_tagname": "ZN"
+      "context": "nutrient-master"
     }
   },
   {

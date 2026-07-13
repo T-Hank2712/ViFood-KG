@@ -23,12 +23,12 @@ def stable_id(prefix: str, value: str) -> str:
 def build_release(candidates: list[dict], reviewed_at: str) -> tuple[list[dict], list[dict], list[dict]]:
     source = {"label": "Source", "id": SOURCE_ID, "properties": {
         "name": "Văn bản hợp nhất 09/VBHN-BYT (2024)", "source_type": "government_regulation",
-        "url": SOURCE_URL, "source": SOURCE_ID, "source_url": SOURCE_URL,
+        "url": SOURCE_URL,
         "reviewed_at": reviewed_at, "status": "active",
     }}
     regulation = {"label": "Regulation", "id": REGULATION_ID, "properties": {
         "name": "Quy định về quản lý và sử dụng phụ gia thực phẩm", "document_number": "09/VBHN-BYT",
-        "issued_on": "2024-09-06", "source": SOURCE_ID, "source_url": SOURCE_URL,
+        "issued_on": "2024-09-06",
         "reviewed_at": reviewed_at, "status": "active",
     }}
     nodes, relationships, approved = [source, regulation], [{"start_id": REGULATION_ID, "end_id": SOURCE_ID, "type": "SUPPORTED_BY", "properties": {"context": "official-consolidated-text"}}], []
@@ -37,7 +37,11 @@ def build_release(candidates: list[dict], reviewed_at: str) -> tuple[list[dict],
     alias_ids: set[str] = set()
     for candidate in candidates:
         functional_class_names = candidate.get("functional_classes", candidate["properties"].get("functional_classes", []))
-        additive_properties = {key: value for key, value in candidate["properties"].items() if key != "functional_classes"}
+        additive_properties = {
+            key: value
+            for key, value in candidate["properties"].items()
+            if key not in {"functional_classes", "source", "source_url"}
+        }
         additive = {
             "label": candidate["label"],
             "id": candidate["id"],
@@ -53,10 +57,13 @@ def build_release(candidates: list[dict], reviewed_at: str) -> tuple[list[dict],
         for class_name in functional_class_names:
             class_id = stable_id("FUNCTION:", class_name)
             functional_classes.setdefault(class_id, {"label": "FunctionalClass", "id": class_id, "properties": {
-                "name": class_name, "language": "vi", "source": SOURCE_ID, "source_url": SOURCE_URL,
+                "name": class_name, "language": "vi",
                 "reviewed_at": reviewed_at, "status": "active",
             }})
-            relationships.append({"start_id": additive["id"], "end_id": class_id, "type": "HAS_FUNCTION", "properties": {"source": SOURCE_ID}})
+            relationships.extend([
+                {"start_id": additive["id"], "end_id": class_id, "type": "HAS_FUNCTION", "properties": {}},
+                {"start_id": class_id, "end_id": SOURCE_ID, "type": "SUPPORTED_BY", "properties": {"context": "functional-class"}},
+            ])
         # ins is a canonical Additive property.  Keep only the E-number form
         # because it is a distinct token commonly observed on product labels.
         aliases = []
@@ -73,8 +80,11 @@ def build_release(candidates: list[dict], reviewed_at: str) -> tuple[list[dict],
             alias_ids.add(alias_id)
             nodes.append({"label": "Alias", "id": alias_id, "properties": {
                 "name": name, "normalized_name": normalized, "language": language, "alias_type": alias_type,
-                "source": SOURCE_ID, "source_url": SOURCE_URL, "reviewed_at": reviewed_at, "status": "active",
+                "reviewed_at": reviewed_at, "status": "active",
             }})
-            relationships.append({"start_id": alias_id, "end_id": additive["id"], "type": "REFERS_TO", "properties": {"source": SOURCE_ID}})
+            relationships.extend([
+                {"start_id": alias_id, "end_id": additive["id"], "type": "REFERS_TO", "properties": {}},
+                {"start_id": alias_id, "end_id": SOURCE_ID, "type": "SUPPORTED_BY", "properties": {"context": "additive-alias"}},
+            ])
     nodes.extend(functional_classes.values())
     return nodes, relationships, approved

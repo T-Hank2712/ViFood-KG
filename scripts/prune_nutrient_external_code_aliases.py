@@ -11,11 +11,13 @@ from neo4j import GraphDatabase
 
 SOURCE_ID = "SOURCE:FAO_INFOODS_TAGNAMES"
 MATCH = """
-MATCH (alias:Alias {source: $source_id})-[:REFERS_TO]->(:Nutrient)
+MATCH (alias:Alias)-[:SUPPORTED_BY]->(:Source {id: $source_id})
+MATCH (alias)-[:REFERS_TO]->(:Nutrient)
 RETURN count(DISTINCT alias) AS count
 """
 DELETE = """
-MATCH (alias:Alias {source: $source_id})-[:REFERS_TO]->(:Nutrient)
+MATCH (alias:Alias)-[:SUPPORTED_BY]->(:Source {id: $source_id})
+MATCH (alias)-[:REFERS_TO]->(:Nutrient)
 WITH DISTINCT alias
 DETACH DELETE alias
 RETURN count(alias) AS deleted

@@ -3,7 +3,7 @@ released_at: '2026-06-25'
 source_ids:
 - SOURCE:CODEX_CXS_1_1985
 node_count: 76
-relationship_count: 75
+relationship_count: 141
 notes: Codex CXS 1-1985 allergen master for prepackaged-food label interpretation.
 raw_snapshot:
   files:

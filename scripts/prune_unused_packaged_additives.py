@@ -10,18 +10,18 @@ from neo4j import GraphDatabase
 
 SOURCE_ID = "SOURCE:VN_VBHN_09_2024"
 COUNT = """
-MATCH (a:Additive {source: $source_id})
+MATCH (a:Additive)-[:SUPPORTED_BY]->(:Source {id: $source_id})
 WHERE NOT (a)-[:PERMITTED_IN]->(:FoodCategory)
 RETURN count(a) AS count
 """
 DELETE = """
-MATCH (a:Additive {source: $source_id})
+MATCH (a:Additive)-[:SUPPORTED_BY]->(:Source {id: $source_id})
 WHERE NOT (a)-[:PERMITTED_IN]->(:FoodCategory)
 WITH collect(a) AS additives
 UNWIND additives AS additive
 DETACH DELETE additive
 WITH size(additives) AS deleted
-MATCH (f:FunctionalClass {source: $source_id})
+MATCH (f:FunctionalClass)-[:SUPPORTED_BY]->(:Source {id: $source_id})
 WHERE NOT ()-[:HAS_FUNCTION]->(f)
 WITH deleted, collect(f) AS orphan_functions
 FOREACH (f IN orphan_functions | DETACH DELETE f)

@@ -13,10 +13,22 @@ SOURCE_ID = "SOURCE:FAO_INFOODS_TAGNAMES"
 SOURCE_URL = "https://www.fao.org/infoods/infoods/standards-guidelines/food-component-identifiers-tagnames/en/"
 RECORD_START = re.compile(r"^<(?P<tag>[A-Z0-9-]+)>\s*", re.MULTILINE)
 FIELD_START = re.compile(r"^\s*(?P<name>Units?|Comments?|Synonyms?|Tables?)\s*:\s*", re.MULTILINE | re.IGNORECASE)
+UNIT_TOKEN = re.compile(r"^[A-Za-z][A-Za-z0-9/%_-]*")
 
 
 def normalize(value: str) -> str:
     return " ".join(value.replace("\r", "").split())
+
+
+def normalize_default_unit(value: str | None) -> str | None:
+    if not value:
+        return None
+    match = UNIT_TOKEN.match(normalize(value))
+    return match.group(0) if match else None
+
+
+def normalize_nutrient_name(value: str) -> str:
+    return normalize(value).split(";", 1)[0].strip()
 
 
 def parse_tagnames(text: str, raw_file: str, retrieved_at: str) -> Iterator[dict[str, object]]:
@@ -26,7 +38,7 @@ def parse_tagnames(text: str, raw_file: str, retrieved_at: str) -> Iterator[dict
         body_end = matches[index].start() if index < len(matches) else len(text)
         body = text[match.end():body_end]
         fields = list(FIELD_START.finditer(body))
-        name = normalize(body[:fields[0].start()] if fields else body)
+        name = normalize_nutrient_name(body[:fields[0].start()] if fields else body)
         if not name:
             continue
         values: dict[str, str] = {}
@@ -38,7 +50,7 @@ def parse_tagnames(text: str, raw_file: str, retrieved_at: str) -> Iterator[dict
         yield {
             "source_tagname": match.group("tag"),
             "source_name": name,
-            "default_unit": values.get("unit") or None,
+            "default_unit": normalize_default_unit(values.get("unit")),
             "synonyms_raw": synonym_text or None,
             "comments": values.get("comment") or None,
             "tables": values.get("table") or None,

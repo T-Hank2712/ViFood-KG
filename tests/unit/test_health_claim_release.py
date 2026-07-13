@@ -15,12 +15,16 @@ def test_builds_evidence_complete_health_claim_release(tmp_path) -> None:
     }) + "\n", encoding="utf-8")
     nutrients = tmp_path / "nutrients.json"
     nutrients.write_text(json.dumps([
-        {"label": "Source", "id": "SOURCE:FAO_INFOODS_TAGNAMES", "properties": {"source": "SOURCE:FAO_INFOODS_TAGNAMES"}},
-        {"label": "Nutrient", "id": "NUTRIENT:INFOODS_NA", "properties": {"external_code": "NA", "source": "SOURCE:FAO_INFOODS_TAGNAMES"}},
+        {"label": "Source", "id": "SOURCE:FAO_INFOODS_TAGNAMES", "properties": {"url": "https://example.test"}},
+        {"label": "Nutrient", "id": "NUTRIENT:INFOODS_NA", "properties": {"external_code": "NA"}},
     ]), encoding="utf-8")
     nodes, relationships = build_release(staging, nutrients, "2026-06-24")
     assert {node["label"] for node in nodes} == {"Source", "Nutrient", "HealthClaim", "HealthOutcome"}
-    assert {relationship["type"] for relationship in relationships} == {"SUBJECT_OF", "OUTCOME", "EVIDENCED_BY"}
+    assert {relationship["type"] for relationship in relationships} == {"SUBJECT_OF", "OUTCOME", "EVIDENCED_BY", "SUPPORTED_BY"}
+    claim = next(node for node in nodes if node["label"] == "HealthClaim")
+    assert "name" not in claim["properties"]
+    evidence = next(relationship for relationship in relationships if relationship["type"] == "EVIDENCED_BY")
+    assert "evidence_excerpt" not in evidence["properties"]
 
 
 def test_builds_one_claim_with_multiple_nutrient_subjects(tmp_path) -> None:
@@ -33,9 +37,9 @@ def test_builds_one_claim_with_multiple_nutrient_subjects(tmp_path) -> None:
     }) + "\n", encoding="utf-8")
     nutrients = tmp_path / "nutrients.json"
     nutrients.write_text(json.dumps([
-        {"label": "Source", "id": "SOURCE:FAO_INFOODS_TAGNAMES", "properties": {"source": "SOURCE:FAO_INFOODS_TAGNAMES"}},
-        {"label": "Nutrient", "id": "NUTRIENT:INFOODS_CA", "properties": {"external_code": "CA", "source": "SOURCE:FAO_INFOODS_TAGNAMES"}},
-        {"label": "Nutrient", "id": "NUTRIENT:INFOODS_FE", "properties": {"external_code": "FE", "source": "SOURCE:FAO_INFOODS_TAGNAMES"}},
+        {"label": "Source", "id": "SOURCE:FAO_INFOODS_TAGNAMES", "properties": {"url": "https://example.test"}},
+        {"label": "Nutrient", "id": "NUTRIENT:INFOODS_CA", "properties": {"external_code": "CA"}},
+        {"label": "Nutrient", "id": "NUTRIENT:INFOODS_FE", "properties": {"external_code": "FE"}},
     ]), encoding="utf-8")
     _, relationships = build_release(staging, nutrients, "2026-06-24")
     assert sum(relationship["type"] == "SUBJECT_OF" for relationship in relationships) == 2

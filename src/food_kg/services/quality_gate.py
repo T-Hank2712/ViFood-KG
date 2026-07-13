@@ -36,19 +36,28 @@ def validate_release_gate(nodes: list[NodeRecord], relationships: list[Relations
     registry_sources = {source["id"]: source for source in registry.get("sources", [])}
     release_sources = set(manifest.get("source_ids", []))
     source_nodes = {node.id for node in nodes if node.label == "Source"}
+    source_relationship_types = {"SUPPORTED_BY", "EVIDENCED_BY"}
+    supported_sources: dict[str, set[str]] = {node.id: set() for node in nodes}
+    for relationship in relationships:
+        if relationship.type in source_relationship_types and relationship.end_id in source_nodes:
+            supported_sources.setdefault(relationship.start_id, set()).add(relationship.end_id)
     for node in nodes:
-        source_id = node.properties.get("source")
-        if source_id not in registry_sources:
-            errors.append(f"{node.id}: source is absent from trusted source registry ({source_id})")
-        if source_id not in release_sources:
-            errors.append(f"{node.id}: source is absent from release manifest ({source_id})")
-        if policy["require_source_node_for_every_source"] and source_id not in source_nodes:
-            errors.append(f"{node.id}: source node is absent from release ({source_id})")
         if node.properties.get("status") not in policy["allowed_statuses"]:
             errors.append(f"{node.id}: status is not eligible for automated import")
         for field in policy["required_node_properties"]:
             if not node.properties.get(field):
                 errors.append(f"{node.id}: missing required gate property {field}")
+        if node.label == "Source":
+            if node.id not in registry_sources:
+                errors.append(f"{node.id}: source is absent from trusted source registry")
+            if node.id not in release_sources:
+                errors.append(f"{node.id}: source is absent from release manifest")
+        elif not (supported_sources.get(node.id) & release_sources):
+            errors.append(f"{node.id}: missing provenance relationship to a release Source")
+    if policy["require_source_node_for_every_source"]:
+        for source_id in release_sources:
+            if source_id not in source_nodes:
+                errors.append(f"Release source node is absent from release ({source_id})")
     if policy["require_raw_snapshot_hashes"]:
         for item in manifest.get("raw_snapshot", {}).get("files", []):
             raw_path = project_root / item.get("path", "")
