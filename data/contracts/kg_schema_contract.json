@@ -46,7 +46,7 @@
     },
     "ingredient": {
       "label": "Ingredient",
-      "canonical_status": "no_catalog_bootstrap_current_phase",
+      "canonical_status": "outside_vifood_kg_canonical_scope",
       "id_format": "INGREDIENT:{WIKIDATA_QID}",
       "required_properties": ["id", "name"],
       "optional_properties": ["wikidata_id", "name_vi", "name_en", "description_vi", "description_en"],
@@ -56,7 +56,7 @@
         "normalized(name)"
       ],
       "relationships": ["SUPPORTED_BY", "REFERS_TO", "BELONGS_TO", "HAS_USAGE"],
-      "runtime_create_policy": "graph_first_then_wikidata_enrich_create"
+      "runtime_create_policy": "builder_graph_first_then_wikidata_enrich_create"
     }
   },
   "provenance_rules": {

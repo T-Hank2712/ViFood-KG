@@ -34,7 +34,7 @@ Builder cần biết `Additive` canonical match bằng `ins`, E-code alias, `nam
 
 ### User Story 3 - Builder xử lý Ingredient ngoài catalog hiện tại (Priority: P1)
 
-Ingredient chưa là catalog canonical do ViFood-KG import sẵn trong phase này, nên Builder match graph trước rồi mới Wikidata enrich/create.
+Ingredient nằm ngoài scope canonical của ViFood-KG, nên Builder match graph trước rồi mới Wikidata enrich/create.
 
 **Acceptance Scenarios**:
 
@@ -47,7 +47,7 @@ Ingredient chưa là catalog canonical do ViFood-KG import sẵn trong phase nà
 - **FR-002**: Contract PHẢI định nghĩa supported entities `Nutrient`, `Additive`, `Ingredient`.
 - **FR-003**: Contract PHẢI định nghĩa match keys cho `Nutrient`.
 - **FR-004**: Contract PHẢI định nghĩa match keys cho `Additive`.
-- **FR-005**: Contract PHẢI nói rõ `Ingredient` không có catalog canonical import nền trong phase này.
+- **FR-005**: Contract PHẢI nói rõ `Ingredient` nằm ngoài ViFood-KG canonical scope và thuộc Builder runtime flow.
 - **FR-006**: Contract PHẢI định nghĩa provenance rules.
 - **FR-007**: Contract PHẢI liệt kê release IDs mà Builder có thể match against.
 

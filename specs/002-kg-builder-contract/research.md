@@ -14,9 +14,9 @@
 
 ## Decision 3: Ingredient is runtime match-or-create
 
-**Decision**: Contract ghi rõ Ingredient chưa có catalog nền trong phase này.
+**Decision**: Contract ghi rõ Ingredient nằm ngoài ViFood-KG canonical scope.
 
-**Rationale**: Tránh Builder giả định có ingredient release trong KG.
+**Rationale**: Tránh Builder giả định có ingredient release/extractor/pipeline trong KG.
 
 ## Open Questions
 

@@ -102,7 +102,7 @@ Builder must match canonical catalog first, prioritizing `ins`/E-code. If no mat
 
 ### Ingredient
 
-**Canonical status**: no catalog bootstrap in current ViFood-KG phase.
+**Canonical status**: outside ViFood-KG canonical scope.
 
 **Label**: `Ingredient`
 
@@ -110,11 +110,11 @@ Builder must match canonical catalog first, prioritizing `ins`/E-code. If no mat
 
 **Builder policy**:
 
-Builder should match existing `Ingredient` nodes in the target graph first. If no match exists, Builder may enrich from Wikidata and create a new Ingredient with provenance to `SOURCE:WIKIDATA`, following `ViFood-KG-Builder` feature `002-ingredient-wikidata-sync`.
+Builder owns Ingredient matching, Wikidata enrichment, and runtime creation. Builder should match existing `Ingredient` nodes in the target graph first. If no match exists, Builder may enrich from Wikidata and create a new Ingredient with provenance to `SOURCE:WIKIDATA`, following `ViFood-KG-Builder` feature `002-ingredient-wikidata-sync`.
 
 **Runtime create policy**:
 
-Ingredient is AI-first match-or-create. Do not assume a complete Ingredient catalog exists in ViFood-KG.
+Ingredient is AI-first match-or-create in Builder. Do not expect ViFood-KG to provide an Ingredient catalog, Ingredient release, Ingredient extractor, or Wikidata Ingredient pipeline.
 
 ## Release Contracts
 
@@ -144,4 +144,4 @@ Builder should record the contract version and release IDs used for a workflow r
 
 - This contract does not merge the two projects.
 - This contract does not allow runtime AI output to bypass KG quality gate.
-- This contract does not define a complete Ingredient catalog for ViFood-KG.
+- This contract keeps Ingredient outside ViFood-KG canonical scope.
